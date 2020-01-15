@@ -14,16 +14,7 @@ import java.util.Random;
 public class CreateAccountPageObjectModel extends LoadableComponent<CreateAccountPageObjectModel>{
     private WebDriver driver;
     private WebDriverWait wait;
-    private String urlAuthentication = "http://automationpractice.com/index.php?controller=authentication&back=my-account";
     private String urlAccountCreation = "http://automationpractice.com/index.php?controller=authentication&back=my-account#account-creation";
-
-    //AUTHENTICATION PAGE
-
-    @FindBy(how = How.ID, using = "email_create")
-    private WebElement inputEmail;
-
-    @FindBy(how = How.ID, using = "SubmitCreate")
-    private WebElement submitButton;
 
     //CREATE ACCOUNT PAGE
     //personal information
@@ -79,12 +70,12 @@ public class CreateAccountPageObjectModel extends LoadableComponent<CreateAccoun
 
     @Override
     public void load() {
-        driver.get(urlAuthentication);
+        driver.get(urlAccountCreation);
     }
 
     @Override
     public void isLoaded() throws Error {
-        Assert.assertEquals("Page is not loaded", urlAuthentication, driver.getCurrentUrl());
+        Assert.assertEquals("Page is not loaded", urlAccountCreation, driver.getCurrentUrl());
     }
 
     public CreateAccountPageObjectModel(WebDriver driver) {
@@ -93,20 +84,20 @@ public class CreateAccountPageObjectModel extends LoadableComponent<CreateAccoun
         wait = new WebDriverWait(driver, 10);
     }
 
-    public String generateEmail() {
-        String result = "";
-        Random random = new Random();
-        result = "newuser" + random.nextInt() + "@yopmail.com";
-        return result;
-    }
+//    public String generateEmail() {
+//        String result = "";
+//        Random random = new Random();
+//        result = "user" + random.nextInt() + "@yopmail.com";
+//        return result;
+//    }
 
-    public void enterValidEmail(String email) {
-        inputEmail.sendKeys(generateEmail());
-    }
-
-    public void submitValidEmail() {
-        submitButton.click();
-    }
+//    public void enterValidEmail(String email) {
+//        inputEmail.sendKeys(generateEmail());
+//    }
+//
+//    public void submitValidEmail() {
+//        submitButton.click();
+//    }
 
     public void enterValidFirstName(){
         personalFirstName.sendKeys("Sherfe");

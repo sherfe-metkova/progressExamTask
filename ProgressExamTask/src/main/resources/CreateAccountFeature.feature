@@ -6,9 +6,17 @@ Feature: Register functionality
 
   Scenario: Successful registration
 
-    Given user is on authentication page and submits a valid email address
+    Given user is on authentication page
+    And submits a valid Email address
     And the user inputs valid data in all required fields
     When the user presses Register button
     Then the user is successfully registered
+
+#    Examples:
+#      | Email address              |
+#      | sherfe.metkova@yopmail.com |
+#      |
+#      |
+
 
 
