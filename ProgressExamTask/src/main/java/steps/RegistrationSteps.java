@@ -16,9 +16,10 @@ public class RegistrationSteps {
 
     private Context context;
     private Registration registerPage;
-    WebDriver driver = Common.getDriver();
+
 
     public RegistrationSteps(Context context) {
+        WebDriver driver = Common.getDriver();
         this.context = context;
         registerPage = new Registration(driver, context);
     }
@@ -32,7 +33,7 @@ public class RegistrationSteps {
     @And("enters a valid Email address in Create account section")
     public void entersAValidEmailAddressInCreateAccountSection(DataTable dataTable) {
         List<Map<String, String>> userData = dataTable.asMaps();
-        registerPage.enterValidEmail(userData.get(0));
+        registerPage.enterValidRegistrationEmail(userData.get(0));
     }
 
     @Then("the user is on create account page after submitting the email")
@@ -52,10 +53,33 @@ public class RegistrationSteps {
         registerPage.clickRegisterButton();
     }
 
+    @Then("user is presented with error message")
+    public void userIsPresentedWithErrorMessage() {
+        registerPage.verifyInvalidPasswordMessage();
+        registerPage.quit();
+    }
+
     @Then("the user is successfully registered")
     public void theUserIsSuccessfullyRegistered() {
         registerPage.verifyIsRedirectedToMyAccount();
         registerPage.deleteCookies();
+        registerPage.quit();
+    }
+
+    @And("enters invalid Email address in Create account section")
+    public void entersInvalidEmailAddressInCreateAccountSection(DataTable dataTable) {
+        List<Map<String, String>> userData = dataTable.asMaps();
+        registerPage.enterNonValidEmail(userData.get(0));
+    }
+
+    @Then("the user clicks Submit button")
+    public void theUserClicksSubmitButton() throws InterruptedException {
+        registerPage.submitEmail();
+    }
+
+    @And("error message is shown")
+    public void errorMessageIsShown() {
+        registerPage.verifyInvalidEMailMessage();
         registerPage.quit();
     }
 }

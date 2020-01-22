@@ -27,7 +27,7 @@ public class Registration extends LoadableComponent<Login> {
 
     //AUTHENTICATION PAGE
 
-    @FindBy(how = How.ID, using = "email_create")
+    @FindBy(how = How.CSS, using = "#email_create")
     private WebElement emailCreate;
 
     @FindBy(how = How.ID, using = "SubmitCreate")
@@ -85,6 +85,10 @@ public class Registration extends LoadableComponent<Login> {
     @FindBy(how = How.ID, using = "#header > div.nav > div > div > nav > div:nth-child(2) > a")
     private WebElement signOutButton;
 
+    //ERRORS
+    @FindBy(how = How.CSS, using = "#center_column > div")
+    private WebElement invalidPasswordError;
+
     @Override
     public void load() {
         driver.get(URLAUTHENTICATION);
@@ -104,8 +108,8 @@ public class Registration extends LoadableComponent<Login> {
         wait = new WebDriverWait(driver, 10);
     }
 
-    public void enterValidEmail(Map<String, String> userData) {
-        context.username = userData.get("Email");
+    public void enterValidRegistrationEmail(Map<String, String> userData) {
+        context.username = userData.get("email");
         emailCreate.sendKeys(context.username);
         wait.until(ExpectedConditions.elementToBeClickable(submitCreate));
         System.out.println(context.username);
@@ -175,7 +179,11 @@ public class Registration extends LoadableComponent<Login> {
     }
 
     public void verifyInvalidEMailMessage() {
-        wait.until(ExpectedConditions.presenceOfElementLocated((By) invalidEmailError));
-        Assert.assertEquals("Invalid email address.", invalidEmailError.getText());
+        wait.until(ExpectedConditions.textToBePresentInElement(invalidEmailError, "Invalid email address."));
+        Assert.assertTrue("Message for invalid email is not shown", invalidEmailError.getText().contains("Invalid email address."));
+    }
+
+    public void verifyInvalidPasswordMessage() {
+        Assert.assertTrue("Message for invalid password is not displayed", invalidPasswordError.getText().contains("passwd is invalid"));
     }
 }
